@@ -158,12 +158,18 @@ create_manifest() {
     $OPKG list-installed > $instroot/etc/openwrt_manifest
 }
 
+add_shadowsocks_feed(){
+    echo "src/gz openwrt_dist http://openwrt-dist.sourceforge.net/packages/base/${arch}_${subarch}" >>$instroot/etc/opkg/customfeeds.conf
+    echo "src/gz openwrt_dist_luci http://openwrt-dist.sourceforge.net/packages/luci" >>$instroot/etc/opkg/customfeeds.conf
+}
+
 unpack
 disable_root
 if test -n "$metadata"; then
 	add_file $metadata $metadata_dir $dir
 fi
 add_files templates/ $dir/templates/
+add_shadowsocks_feed
 opkg_update
 if test -n "$upgrade"; then
 	update_packages
