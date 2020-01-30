@@ -175,6 +175,10 @@ if test -n "$upgrade"; then
 	update_packages
 fi
 install_packages "$packages"
+$OPKG remove dnsmasq
+env IPKG_INSTROOT=$instroot sh $instroot/etc/rc.common $instroot/etc/init.d/chinadns enable
+env IPKG_INSTROOT=$instroot sh $instroot/etc/rc.common $instroot/etc/init.d/dns-forwarder enable
+env IPKG_INSTROOT=$instroot sh $instroot/etc/rc.common $instroot/etc/init.d/shadowsocks enable
 disable_services "$services"
 add_files $files_dir $instroot
 if test -n "$files"; then
